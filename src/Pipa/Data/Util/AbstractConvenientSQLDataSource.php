@@ -21,7 +21,7 @@ abstract class AbstractConvenientSQLDataSource implements SQLDataSource {
 	function queryValue($sql, array $parameters = null) {
 		$result = $this->querySingle($sql, $parameters);
 		if ($result) {
-			return current($result[0]);
+			return current($result);
 		}
 	}
 }
