@@ -75,30 +75,30 @@ abstract class GenericSQLGenerator {
 
 	function generateMultipleInsertComponents(array $values, Collection $collection) {
 		$components = $this->generateInsertHeaderComponents(array_keys($values[0]), $collection);
-		
+
 		$valuesList = array();
 		foreach($values as $row) {
 			$valuesList[] = $this->generateInsertValues($row);
 		}
 		$components['values'] = 'VALUES '.join(', ', $valuesList);
-		
+
 		return $components;
 	}
-	
+
 	function generateInsertHeaderComponents(array $fields, Collection $collection) {
 		$components = array('keyword'=>'INSERT INTO');
-		
+
 		$components['collection'] = $this->renderCollection($collection);
-		
+
 		$escapedFields = array();
 		foreach($fields as $field) {
 			$escapedFields[] = $this->escapeField(Field::from($field));
 		}
 		$components['fields'] = '('.join(', ', $escapedFields).')';
-		
+
 		return $components;
 	}
-	
+
 	function generateInsertValues(array $values) {
 		$escapedValues = array();
 		foreach($values as $value) {
@@ -287,7 +287,7 @@ abstract class GenericSQLGenerator {
 					$rendered[] = $this->getRandomOrderExpression();
 					break;
 				default:
-					continue;
+					continue 2;
 			}
 		}
 		return 'ORDER BY '.join(', ', $rendered);
