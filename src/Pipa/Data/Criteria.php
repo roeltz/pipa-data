@@ -3,6 +3,7 @@
 namespace Pipa\Data;
 
 use Pipa\Data\Exception\CriteriaException;
+use Pipa\Data\Exception\UnsupportedFeatureException;
 
 /**
  * Represents the constraints, sorting and other parameters of a data query
@@ -176,6 +177,14 @@ class Criteria {
 		}
 	}
 
+	function queryCursor() {
+		if ($this->dataSource instanceof CursorSupport) {
+			return $this->dataSource->queryCursor($this);
+		} else {
+			throw new UnsupportedFeatureException("Cursor not supported by data source " . get_class($this->dataSource));
+		}
+	}
+
 	/**
 	 * Sends a query to the DataSource and retrieves all the results for a single
 	 * field of the collection
@@ -236,7 +245,7 @@ class Criteria {
 		$this->expressions[] = $expression;
 		return $this;
 	}
-	
+
 	protected function indexResult($field, array $result) {
 		$indexed = array();
 		foreach($result as $record) {
@@ -244,7 +253,7 @@ class Criteria {
 		}
 		return $indexed;
 	}
-	
+
 	protected function computeRecordIndex($field, $record) {
 		$value = @$record[$field];
 		if (is_scalar($value)) {
