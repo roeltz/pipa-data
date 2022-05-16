@@ -306,7 +306,7 @@ abstract class GenericSQLGenerator {
 
 	function renderSQLExpression(SQLExpression $expression) {
 		if ($expression->parameters) {
-			return \Pipa\fill($expression->sql, $expression->parameters);
+			return $this->interpolateParameters($expression->sql, $expression->parameters);
 		} else {
 			return $expression->sql;
 		}
