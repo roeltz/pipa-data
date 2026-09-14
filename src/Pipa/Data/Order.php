@@ -6,6 +6,7 @@ class Order implements Criterion {
 
 	const TYPE_ASC = "asc";
 	const TYPE_DESC = "desc";
+	const TYPE_RANDOM = "random";
 
 	public $field;
 	public $type;
